@@ -1,32 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_map.c                                        :+:      :+:    :+:   */
+/*   map_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: arpenel <arpenel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 13:24:20 by arpenel           #+#    #+#             */
-/*   Updated: 2026/03/04 13:24:21 by arpenel          ###   ########.fr       */
+/*   Updated: 2026/03/04 16:15:42 by arpenel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-int count_line(char **argv)
-{
-    char    *line;
-    int fd;
-    int count;
 
-    count = 0;
-    fd = open(argv[1], O_RDONLY);
-    if (fd < 0)
-        return (-1);
-    while((line = get_next_line(fd)))
-    {
-        count++;
-        free(line);
-    }
-    close(fd);
-    return (count);
-}
+
