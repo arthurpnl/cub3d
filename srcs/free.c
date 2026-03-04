@@ -1,32 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_map.c                                        :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: arpenel <arpenel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/04 13:24:20 by arpenel           #+#    #+#             */
-/*   Updated: 2026/03/04 13:24:21 by arpenel          ###   ########.fr       */
+/*   Created: 2026/03/04 13:24:14 by arpenel           #+#    #+#             */
+/*   Updated: 2026/03/04 13:24:15 by arpenel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-int count_line(char **argv)
+void    free_file(t_game *game)
 {
-    char    *line;
-    int fd;
-    int count;
+    int i;
 
-    count = 0;
-    fd = open(argv[1], O_RDONLY);
-    if (fd < 0)
-        return (-1);
-    while((line = get_next_line(fd)))
+    i = 0;
+
+    if (game->file)
     {
-        count++;
-        free(line);
+        while(game->file[i])
+        {
+            free(game->file[i]);
+            i++;
+        }
+        free(game->file);
     }
-    close(fd);
-    return (count);
 }
