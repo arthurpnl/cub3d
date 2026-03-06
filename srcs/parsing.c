@@ -6,7 +6,7 @@
 /*   By: arpenel <arpenel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 13:23:54 by arpenel           #+#    #+#             */
-/*   Updated: 2026/03/04 16:16:58 by arpenel          ###   ########.fr       */
+/*   Updated: 2026/03/06 15:43:49 by arpenel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 int parsing(t_game *game, int argc, char **argv)
 {
+    int map_start;
+    
+    map_start = 0;
     if (argc != 2)
         return (ft_putstr_fd("You didn't send the require amount of args which is : 2 args.\n" , 2), 1);
     if (ext_check(argv[1]) == 1)
@@ -22,8 +25,12 @@ int parsing(t_game *game, int argc, char **argv)
         return (ft_putstr_fd("Path of the map do not exist.\n", 2), 1);
     if  (file_to_tab(game, argv) == 1)
         return (ft_putstr_fd("Error while extracting the .cub file.\n", 2), 1);
-    if  (extract_path(game) == 1)
-        return (ft_pustr_fd("...", 2), 1);
+    if  (trim_file(game) == 1)
+        return (ft_putstr_fd("Error while parsing the file.\n", 2), 1);
+    if ((map_start = parse_identifiers(game)) == -1)
+        return (ft_putstr_fd("Error while parsing the textures/colors.\n", 2), 1);
+    if (parsing_map(game, map_start) == 1)
+        return (ft_putstr_fd("xxxx", 2), 1);
     return (0);
 }
 

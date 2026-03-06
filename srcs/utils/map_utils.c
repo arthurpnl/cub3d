@@ -6,11 +6,24 @@
 /*   By: arpenel <arpenel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 13:24:20 by arpenel           #+#    #+#             */
-/*   Updated: 2026/03/04 16:15:42 by arpenel          ###   ########.fr       */
+/*   Updated: 2026/03/06 16:10:29 by arpenel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
+int is_empty_line(char *str)
+{
+    int i;
+
+    i = 0;
+    while (str[i])
+    {
+        if (str[i] != ' ' && str[i] != '\t')
+            return (0);
+        i++;
+    }
+    return (1);
+}
 
 

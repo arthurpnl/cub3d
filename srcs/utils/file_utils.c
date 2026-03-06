@@ -20,8 +20,8 @@ int file_to_tab(t_game *game, char **argv)
 int count_line(char **argv)
 {
     char    *line;
-    int fd;
-    int count;
+    int     fd;
+    int     count;
 
     count = 0;
     fd = open(argv[1], O_RDONLY);
@@ -34,4 +34,22 @@ int count_line(char **argv)
     }
     close(fd);
     return (count);
+}
+
+int trim_file(t_game *game)
+{
+    int i;
+    char    *trimmed;
+
+    i = 0;
+    while (game->file[i])
+    {
+        trimmed = ft_strtrim(game->file[i], " \t");
+        if (!trimmed)
+            return (free_file(game), 1);
+        free(game->file[i]);
+        game->file[i] = trimmed;
+        i++;
+    }
+    return (0);
 }
