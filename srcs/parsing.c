@@ -6,53 +6,45 @@
 /*   By: arpenel <arpenel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 13:23:54 by arpenel           #+#    #+#             */
-/*   Updated: 2026/03/06 15:43:49 by arpenel          ###   ########.fr       */
+/*   Updated: 2026/03/09 17:54:35 by arpenel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-int parsing(t_game *game, int argc, char **argv)
+static int	ext_check(char *str)
 {
-    int map_start;
-    
-    map_start = 0;
-    if (argc != 2)
-        return (ft_putstr_fd("You didn't send the require amount of args which is : 2 args.\n" , 2), 1);
-    if (ext_check(argv[1]) == 1)
-        return (ft_putstr_fd("Wrong file extension, make sure to use a .cub\n", 2), 1);
-    if (open_file(game, argv) == 1)
-        return (ft_putstr_fd("Path of the map do not exist.\n", 2), 1);
-    if  (file_to_tab(game, argv) == 1)
-        return (ft_putstr_fd("Error while extracting the .cub file.\n", 2), 1);
-    if  (trim_file(game) == 1)
-        return (ft_putstr_fd("Error while parsing the file.\n", 2), 1);
-    if ((map_start = parse_identifiers(game)) == -1)
-        return (ft_putstr_fd("Error while parsing the textures/colors.\n", 2), 1);
-    if (parsing_map(game, map_start) == 1)
-        return (ft_putstr_fd("xxxx", 2), 1);
-    return (0);
+	int	i;
+
+	i = ft_strlen(str) - 1;
+	while (str[i] != '.' && i > 0)
+		i--;
+	if (ft_strncmp(str + i, ".cub", 4) != 0)
+		return (1);
+	return (0);
 }
 
-int ext_check(char  *str)
+static int	open_file(t_game *game, char **argv)
 {
-    int i;
-
-    i = ft_strlen(str) - 1;
-    while(str[i] != '.' && i > 0)
-        i--;
-    if (ft_strncmp(str + i, ".cub", 4) != 0)
-        return (1);
-    return (0);
+	game->fd = open(argv[1], O_RDONLY);
+	if (game->fd < 0)
+		return (1);
+	return (0);
 }
 
-int open_file(t_game *game, char **argv)
+int	parsing(t_game *game, int argc, char **argv)
 {
-    game->fd = open(argv[1], O_RDONLY);
-    if (game->fd < 0)
-        return (1);
-    return (0);
+	if (argc != 2)
+		return (ft_putstr_fd("Error: Wrong number of arguments.\n", 2), 1);
+	if (ext_check(argv[1]) == 1)
+		return (ft_putstr_fd("Error: Wrong file extension (use .cub).\n", 2), 1);
+	if (open_file(game, argv) == 1)
+		return (ft_putstr_fd("Error: Cannot open file.\n", 2), 1);
+	if (file_to_tab(game, argv) == 1)
+		return (ft_putstr_fd("Error: Failed to read file.\n", 2), 1);
+	if (parse_identifiers(game) == -1)
+		return (ft_putstr_fd("Error: Invalid identifiers.\n", 2), 1);
+	if (parse_map(game) == -1)
+		return (ft_putstr_fd("Error: Invalid map.\n", 2), 1);
+	return (0);
 }
-
-
-
